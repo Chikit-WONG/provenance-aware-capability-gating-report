@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.1)  25 JUL 2026 19:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.1)  25 JUL 2026 19:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -468,207 +468,99 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 
 
 ]
-! Missing $ inserted.
-<inserted text> 
-                $
-l.174 synthetic 	exttt{send_
-                            email} tool.  Each argument carries a role and an
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-LaTeX Font Info:    Trying to load font information for U+msa on input line 174.
-(/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Trying to load font information for U+msa on input line 205.
+ (/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 174.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 205.
  (/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-! Extra }, or forgotten $.
-l.174 synthetic 	exttt{send_email}
-                                   tool.  Each argument carries a role and an
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
+Underfull \hbox (badness 1824) in paragraph at lines 210--219
+[]\T1/ptm/m/n/10 Ordinary Capability-only checks com-pare a pro-
+ []
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.180 
-      
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 173--180
-[]\T1/ptm/m/n/10 The frozen main ex-per-i-ment con-tains four
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 247--247
+[]\T1/ptm/m/n/7 External Bob (allow-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 173--180
-\T1/ptm/m/n/10 de-ter-min-is-tic calls to the same syn-thetic
- []
-
-
-Overfull \hbox (220.26045pt too wide) in paragraph at lines 173--180
-\T1/ptm/m/n/10 extttsend$[]\OML/cmm/m/it/10 mailtool:Eachargumentcarriesaroleandanimmutableprovenancelabel:OrdinaryCapability \OMS/cmsy/m/n/10 ^^@
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 173--180
-\OML/cmm/m/it/10 onlycheckscomparevaluesagainstanallow \OMS/cmsy/m/n/10 ^^@
- []
-
-
-Overfull \hbox (279.37161pt too wide) in paragraph at lines 173--180
-\OML/cmm/m/it/10 listbutignoreprovenance:PACTfirstperformsthesamevaluecheckandthenrequirestrustedprovenanceforthehigh \OMS/cmsy/m/n/10 ^^@
- []
-
-
-Overfull \hbox (212.08054pt too wide) in paragraph at lines 173--180
-\OML/cmm/m/it/10 impactrolesexttt[]; exttt[]; andexttt[]:Externalvaluesremainpermittedforthelow \OMS/cmsy/m/n/10 ^^@
- []
-
-
-Underfull \hbox (badness 2065) in paragraph at lines 224--224
-[]\T1/ptm/m/n/8 External Bob (allow-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 226--226
-[]\T1/ptm/m/n/8 Registered Base64
- []
-
-
-Overfull \hbox (2.81927pt too wide) in paragraph at lines 219--229
- [][] 
- []
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.232 	exttt{scripts/run_
-                         pact_minimum.py}.  It refuses to overwrite an existing
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Extra }, or forgotten $.
-l.232 	exttt{scripts/run_pact_minimum.py}
-                                         .  It refuses to overwrite an existing
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.236 
-      
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 231--236
+Underfull \hbox (badness 10000) in paragraph at lines 254--260
 []\T1/ptm/m/n/10 The re-pro-ducible en-try point is
  []
 
 
-Overfull \hbox (802.4613pt too wide) in paragraph at lines 231--236
-\T1/ptm/m/n/10 extttscripts/run$[]\OML/cmm/m/it/10 act[]inimum:py:Itrefusestooverwriteanexistingartifactdirectory:Thecommittedartifactcontainsexttt[]; exttt[]; exttt[]; exttt[]; andamanifestbindingalloutputSHA \OMS/cmsy/m/n/10 ^^@
+Underfull \hbox (badness 1742) in paragraph at lines 254--260
+\T1/pcr/m/n/10 scripts/run_pact_minimum.py\T1/ptm/m/n/10 . It re-fuses to
  []
 
-[2]
-Underfull \hbox (badness 8113) in paragraph at lines 261--261
+
+Underfull \hbox (badness 2894) in paragraph at lines 254--260
+\T1/ptm/m/n/10 ar-ti-fact con-tains \T1/pcr/m/n/10 results.csv\T1/ptm/m/n/10 , \T1/pcr/m/n/10 results.json\T1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--291
+ \T1/ptm/m/it/10 a) Decision-log ex-cerpt.: [][] \T1/ptm/m/n/10 A rep-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--291
+\T1/ptm/m/n/10 re-sen-ta-tive blocked row records
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--291
+\T1/pcr/m/n/10 case_id=external-bob-allowlisted\T1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 285--291
+\T1/pcr/m/n/10 role=recipient\T1/ptm/m/n/10 , and
+ []
+
+
+Underfull \hbox (badness 8113) in paragraph at lines 316--316
 []\T1/ptm/m/n/8 Registered Base64 user
  []
 
-[3] (./main.bbl) [4]
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-[]\T1/ptm/m/n/10 The frozen orig-i-nal and hard-ened plans
+[3]
+Underfull \hbox (badness 3690) in paragraph at lines 382--391
+[]\T1/ptm/m/n/10 The pri-mary ar-ti-fact is self-contained. The di-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/ptm/m/n/10 are un-der $\T1/pcr/m/n/10 configs / frozen/$\T1/ptm/m/n/10 . The cor-
+Underfull \hbox (badness 1796) in paragraph at lines 382--391
+\T1/pcr/m/n/10 decision_log.jsonl\T1/ptm/m/n/10 , the Mer-maid ar-chi-tec-ture
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/ptm/m/n/10 re-spond-ing complete-factorial sum-maries,
+[4] (./main.bbl)
+Underfull \hbox (badness 1968) in paragraph at lines 450--457
+\T1/pcr/m/n/10 pact-[]minimum-[]v2/$\T1/ptm/m/n/10 ; its man-i-fest records out-put
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/ptm/m/n/10 ta-bles, and fig-ures are un-der $\T1/pcr/m/n/10 artifacts /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/pcr/m/n/10 original-[]full-[]factorial-[]analysis-[]v1/$\T1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 8132) in paragraph at lines 384--392
-\T1/ptm/m/n/10 The hard-ened sum-mary is un-der $\T1/pcr/m/n/10 artifacts /
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/pcr/m/n/10 hardened-[]full-[]factorial-[]analysis-[]v1/$\T1/ptm/m/n/10 .
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/ptm/m/n/10 The frozen at-tack cor-pora are un-der
- []
-
-
-Underfull \hbox (badness 2671) in paragraph at lines 384--392
-\T1/pcr/m/n/10 data / frozen/$\T1/ptm/m/n/10 . The re-port can be re-built with
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/pcr/m/n/10 bashscripts / compile _ report . sh$\T1/ptm/m/n/10 ; con-troller
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 384--392
-\T1/ptm/m/n/10 and live re-play uses the cached lo-cal model
- []
-
-[5
-
-] (./main.aux)
+[5] (./main.aux)
  ***********
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: AB02629180EA4464854C27887F44DE9D;3560.
- )
-(\end occurred inside a group at level 2)
-
-### simple group (level 2) entered at line 232 ({)
-### simple group (level 1) entered at line 174 ({)
-### bottom level 
+(rerunfilecheck)             Checksum: 7FBFA297A9CD0A1DEC3398623AF7FAD9;3751.
+ ) 
 Here is how much of TeX's memory you used:
- 12032 strings out of 476135
- 188119 string characters out of 5794789
+ 12044 strings out of 476135
+ 188350 string characters out of 5794789
  1945457 words of memory out of 5000000
- 33860 multiletter control sequences out of 15000+600000
+ 33868 multiletter control sequences out of 15000+600000
  671018 words of font info for 150 fonts, out of 8000000 for 9000
  18 hyphenation exceptions out of 8191
- 75i,10n,79p,541b,588s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 162516 bytes).
+ 75i,10n,79p,541b,444s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (5 pages, 149364 bytes).
 PDF statistics:
- 224 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
- 48 named destinations out of 1000 (max. 500000)
- 193 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 230 PDF objects out of 1000 (max. 8388607)
+ 199 compressed objects within 2 object streams
+ 52 named destinations out of 1000 (max. 500000)
+ 209 words of extra memory for PDF output out of 10000 (max. 10000000)
 

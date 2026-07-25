@@ -134,19 +134,21 @@ and parent event identifiers.  Derived values conservatively retain their
 sources.  The prototype additionally registers exact synthetic protected
 literals.  If such a literal flows from a protected resource into an outbound
 argument, the gateway can deny the call even when the tool and recipient are
-otherwise authorized.  Tasks T5 and T6 were intended to probe this incremental
-provenance effect.  The complete factorial below separates it from the safe
-prompt and capability factors.
+otherwise authorized.  The four-case PACT experiment below isolates this
+source-and-role check from ordinary allow-list checking.  Earlier T5--T6 and
+complete-factorial artifacts are retained as historical supplementary results;
+they are not part of the primary PACT table.
 
 \section{Threat Model}
 
 \paragraph{Adversary.}
-The attacker controls one external-content block in a synthetic email consumed
-by the Reader Agent.  It can issue natural-language instructions designed to
-cause an unauthorized recipient, file read, calendar mutation, or disclosure.
-The formal Red Agent is not present at victim run time: it generates five
-candidates per task offline under fixed seeds, after which the selected payload
-is frozen and hashed.
+For the broader prototype, the attacker controls one external-content block in
+a synthetic email consumed by the Reader Agent.  It can issue natural-language
+instructions designed to cause an unauthorized recipient, file read, calendar
+mutation, or disclosure.  The primary PACT artifact does not run a live model:
+it uses four deterministic synthetic calls with fixed provenance labels.  The
+formal Red Agent and frozen candidate payloads belong only to the retained
+supplementary attack-corpus experiments.
 
 \paragraph{Trusted computing base.}
 The scenario manifest, capability gateway, provenance tracker, mock tools,
@@ -170,13 +172,21 @@ side channels, encoded values, or attacks that exploit the model-serving stack.
 
 \section{Attack \& Defense Design}
 
+\subsection{Attacks}
+
 The frozen main experiment contains four deterministic calls to the same
-synthetic 	exttt{send_email} tool.  Each argument carries a role and an
-immutable provenance label.  Ordinary Capability-only checks compare values
-against an allow-list but ignore provenance.  PACT first performs the same
-value check and then requires trusted provenance for the high-impact roles
-	exttt{recipient}, 	exttt{target}, and 	exttt{control}.  External values remain
-permitted for the low-risk 	exttt{content} role.
+synthetic \texttt{send\_email} tool.  The calls model the two relevant ways in
+which an indirect prompt injection can influence a tool invocation: it can
+replace a high-impact argument (the recipient/target) with an externally
+supplied value, or it can supply ordinary text that should remain usable as
+message content.  The fourth case is a control for a legitimate user value
+that is changed by an explicitly registered format transformation.
+
+Each argument carries a role and an immutable provenance label.  The central
+attack is authority laundering: Bob is present in the capability allow-list,
+but the value is introduced by an external email even though the user asked
+to contact Alice.  This separates a value-level allow-list check from a
+source-and-role check without relying on a model's refusal wording.
 
 \begin{table}[t]
 \centering
@@ -195,12 +205,24 @@ Registered Base64 user transform & Allow & Allow & 1 \\
 \end{tabular}}
 \end{table}
 
+\subsection{Defenses}
+
+Ordinary Capability-only checks compare a proposed value against the
+capability allow-list but ignore its provenance.  PACT first performs that
+same value check and then requires a trusted provenance level for the
+high-impact roles \texttt{recipient}, \texttt{target}, and \texttt{control}.
+External values remain permitted for the low-risk \texttt{content} role.  A
+format change is trusted only when the transformation registry contains the
+exact source hash, output hash, transformation name, and trusted source
+authority; the policy therefore uses an auditable provenance chain rather
+than fuzzy string matching.
+
 The second row is the authority-laundering/confused-deputy case: Bob is a legal
 value according to the manifest, but an external email is not trusted to bind
 Bob to the recipient role.  The third row prevents an over-broad policy from
 blocking all retrieved data.  The fourth row is accepted only when the exact
 source hash, output hash, transform name, and trusted source authority are
-present in an append-only transformation registry; it is not fuzzy matching.
+present in an append-only transformation registry.
 
 \section{Evaluation}
 
@@ -214,6 +236,7 @@ side-effect count, reason, provenance digest, and decision-log SHA-256.
 
 \begin{table}[t]
 \centering
+\scriptsize
 \caption{Minimum deterministic PACT evaluation.}
 \label{tab:minimum-matrix}
 \begin{tabular}{p{0.33\columnwidth}ccr}
@@ -229,10 +252,42 @@ Registered Base64 transform & Allow & Allow & 1 \\
 \end{table}
 
 The reproducible entry point is
-	exttt{scripts/run_pact_minimum.py}.  It refuses to overwrite an existing
-artifact directory.  The committed artifact contains 	exttt{results.csv},
-	exttt{results.json}, 	exttt{decision_log.jsonl}, 	exttt{architecture.mmd},
-and a manifest binding all output SHA-256 values to the code commit.
+\texttt{scripts/run\_pact\_minimum.py}.  It refuses to overwrite an existing
+artifact directory.  The committed artifact contains \texttt{results.csv},
+\texttt{results.json}, \texttt{decision\_log.jsonl}, and
+\texttt{architecture.mmd}, together with a manifest binding all output
+SHA-256 values to the code commit.
+
+The enforcement path is: a user or external email supplies a value; the
+gateway attaches its provenance; the value is bound to a parameter role; and
+the capability and PACT checks jointly decide whether the tool call can reach
+the side-effect ledger.  In the authority-laundering case, the capability
+check returns Allow while the PACT role check returns Deny, so no tool call and
+no side effect are recorded.
+
+\begin{figure}[t]
+\centering
+\fbox{%
+\begin{minipage}{0.86\columnwidth}
+\centering
+\texttt{user / external email}\par
+$\downarrow$ attach provenance\par
+\texttt{recipient | target | content}\par
+$\downarrow$ capability + PACT checks\par
+\texttt{ALLOW: tool call + side effect}\par
+\texttt{DENY: no call + no side effect}
+\end{minipage}}
+\caption{The deterministic PACT enforcement path at the tool boundary.}
+\label{fig:pact-flow}
+\end{figure}
+
+\paragraph{Decision-log excerpt.}
+A representative blocked row records
+\texttt{case\_id=external-bob-allowlisted}, \texttt{role=recipient}, and
+\texttt{source=external:email-evil}.  Its decisions are
+\texttt{capability=Allow}, \texttt{pact=Deny}, \texttt{executed=0}, and
+\texttt{side\_effects=0}; the complete row also stores the provenance
+digest and decision-log SHA-256 in the committed JSONL artifact.
 
 \subsection{Outcome Definitions}
 
@@ -263,6 +318,13 @@ Registered Base64 user value & Allow & Allow & 1 \\
 \end{tabular}
 \end{table}
 
+Capability-only allows all four capability-valid values (4/4).  PACT allows
+the user-selected value, the low-risk external content, and the registered
+transformation (3/4), while blocking the externally supplied allow-listed Bob
+in the high-trust recipient role (1/1 targeted authority-laundering case).
+The blocked row has zero tool calls and zero synthetic side effects; the three
+allowed rows each have one side effect.
+
 The second case is the central result.  Capability-only cannot distinguish an
 allow-listed Bob supplied by the user from an allow-listed Bob supplied by an
 external email.  PACT rejects only the high-trust role binding, without
@@ -277,8 +339,8 @@ Qwen3-VL-8B remains vulnerable to indirect prompt injection, and the effect of
 a simple repeat-user-prompt defense depends on attack family and suite.  This
 result motivates the problem but does not evaluate PACT and is not merged with
 Table~\ref{tab:pact-results}.  The frozen baseline and its SHA-256 manifests
-remain in 	exttt{artifacts/agentdojo-external-full-v1/} and
-	exttt{artifacts/agentdojo-external-full-analysis-v1/}.
+remain in the separate external-baseline artifact directories; their exact
+paths are listed in the appendix.
 
 \section{Analysis and Discussion}
 
@@ -287,8 +349,8 @@ remain in 	exttt{artifacts/agentdojo-external-full-v1/} and
 The results support a precise mechanism claim rather than a broad security
 claim.  Ordinary capability gating answers ``is this value allowed?''  PACT
 adds ``is this source trusted for this role?''  Thus the allow-listed external
-Bob is denied only when bound to 	exttt{recipient}; external email text still
-reaches 	exttt{content}, and a user value survives a registered Base64
+Bob is denied only when bound to \texttt{recipient}; external email text still
+reaches \texttt{content}, and a user value survives a registered Base64
 transformation.  The four cases are deterministic and intentionally small so
 that every decision and side effect can be inspected.
 
@@ -317,22 +379,26 @@ guaranteed bypass of unrelated production systems.
 
 \subsection{Reproducibility}
 
-The repository records the local model path and configuration, frozen prompts,
-scenario JSON, payload registries and hashes, randomized run plan, raw responses,
-world snapshots, JSONL audit events, evaluator outputs, environment metadata,
-and aggregation code.  Replay remains usable without a GPU or model server.
-Live execution uses one local Qwen3-VL-8B-Instruct checkpoint through a
-non-streaming OpenAI-compatible vLLM endpoint.  Controller tests run in the
-cluster's \texttt{test} Conda environment; model jobs use SLURM and an A40 GPU.
+The primary artifact is self-contained.  The directory
+\texttt{pact-minimum-v2} contains the four-case \texttt{results.json} and
+\texttt{results.csv}, the append-only \texttt{decision\_log.jsonl}, the
+Mermaid architecture file, and a manifest binding output SHA-256 values to the
+recorded code commit.  The deterministic replay entry point is
+\texttt{scripts/run\_pact\_minimum.py}; it refuses to overwrite an existing
+artifact directory.  Unit tests run in the
+cluster's \texttt{test} Conda environment and require no model server.  The
+pinned AgentDojo artifacts are separate external-baseline evidence.
 
 \subsection{AI-Use Disclosure}
 
 Generative AI systems were used as engineering and writing assistants: to help
 scaffold code and tests, review threat-model and experimental-design choices,
-draft documentation, and generate the offline synthetic attack candidates.  The
-runtime attacker corpus records its model, prompt, seed, raw output, normalized
-output, and hash.  Human team members remain responsible for the research
-question, security assumptions, scenario authorization, code review, executed
+draft documentation, and, for historical supplementary experiments, generate
+offline synthetic attack candidates.  Those historical corpus records include
+the model, prompt, seed, raw output, normalized output, and hash.  The primary
+PACT four-case artifact is deterministic and does not depend on a model
+response.  Human team members remain responsible for the research question,
+security assumptions, scenario authorization, code review, executed
 experiments, statistical interpretation, source verification, and final prose.
 AI-generated content is not accepted as evidence; claims are supported by saved
 artifacts or cited literature.
@@ -381,13 +447,12 @@ information-flow security.
 
 \subsection*{Artifact and replay pointers}
 
-The frozen original and hardened plans are under \path{configs/frozen/}.  The
-corresponding complete-factorial summaries, tables, and figures are under
-\path{artifacts/original-full-factorial-analysis-v1/}.  The hardened summary is
-under \path{artifacts/hardened-full-factorial-analysis-v1/}.  The frozen attack
-corpora are under \path{data/frozen/}.  The report can be rebuilt with
-\path{bash scripts/compile_report.sh}; controller tests use the repository's
-\texttt{test} Conda environment, and live replay uses the cached local model
-\texttt{Qwen3-VL-8B-Instruct}.
+The primary PACT artifact is under \path{artifacts/pact-minimum-v2/}; its
+manifest records output hashes and the code commit.  Historical original and
+hardened factorial plans, frozen attack corpora, and AgentDojo summaries remain
+under their existing paths as supplementary evidence and are not mixed with
+the four-case PACT results.  The report can be rebuilt with
+\path{bash scripts/compile_report.sh}; deterministic controller tests use the
+repository's \texttt{test} Conda environment.
 
 \end{document}
