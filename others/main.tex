@@ -41,16 +41,19 @@ Tool-using agents can confuse data supplied by an attacker with authority
 granted by the user.  We study the smallest auditable version of this problem:
 ordinary capability gating checks whether a value is on an allow-list, whereas
 PACT (Provenance-Aware Capability Tracking/Control) also checks whether that
-value is trusted for its parameter role.  We implement a deterministic PACT
-reference monitor and evaluate four frozen cases.  PACT allows a user-selected
-Alice recipient, denies an externally supplied Bob even when Bob is on the same
-allow-list, allows external text at a low-risk content role, and allows a user
-value after an explicitly registered Base64 transformation.  Every case records
-the argument role, value provenance, both decisions, execution and side-effect
-count, rejection reason, and SHA-256 decision/provenance evidence.  The public
-AgentDojo benchmark is retained only as an external attack-realism baseline; it
-does not directly evaluate PACT.  The result is a small, reproducible mechanism
-demonstration rather than a claim of semantic information-flow security.
+value is trusted for its parameter role.  The strengthened evaluation records
+six paired calls through the local \texttt{PACTToolGateway -> ToolExecutor ->
+MockWorld.send\_email} boundary and eight additional policy-matrix rows.  An
+externally supplied but allow-listed Bob is sent by capability-only
+(\texttt{outbox\_count=1}) but is denied by PACT before \texttt{ToolExecutor}
+(no tool event and \texttt{outbox\_count=0}); user-selected Bob and external
+email content bound only to \texttt{content} are sent by both policies.  Exact
+registered \texttt{NormalizeEmailAddress} transformations are accepted only
+when source/output hashes, transform name, and trusted source authority match.
+The public AgentDojo benchmark is retained only as an external attack-realism
+baseline; it does not directly evaluate PACT.  The result is a small,
+reproducible local mechanism demonstration rather than a claim of production or
+semantic information-flow security.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -134,7 +137,7 @@ and parent event identifiers.  Derived values conservatively retain their
 sources.  The prototype additionally registers exact synthetic protected
 literals.  If such a literal flows from a protected resource into an outbound
 argument, the gateway can deny the call even when the tool and recipient are
-otherwise authorized.  The four-case PACT experiment below isolates this
+otherwise authorized.  The strengthened PACT experiment below isolates this
 source-and-role check from ordinary allow-list checking.  Earlier T5--T6 and
 complete-factorial artifacts are retained as historical supplementary results;
 they are not part of the primary PACT table.
@@ -145,17 +148,19 @@ they are not part of the primary PACT table.
 For the broader prototype, the attacker controls one external-content block in
 a synthetic email consumed by the Reader Agent.  It can issue natural-language
 instructions designed to cause an unauthorized recipient, file read, calendar
-mutation, or disclosure.  The primary PACT artifact does not run a live model:
-it uses four deterministic synthetic calls with fixed provenance labels.  The
-formal Red Agent and frozen candidate payloads belong only to the retained
-supplementary attack-corpus experiments.
+mutation, or disclosure.  The primary PACT artifact does not run a live model: it uses six deterministic
+policy-paired calls with fixed provenance labels through the local tool boundary,
+plus an eight-row decision-only strategy matrix.  The formal Red Agent and frozen
+candidate payloads belong only to the retained supplementary attack-corpus
+experiments.
 
 \paragraph{Trusted computing base.}
-The scenario manifest, capability gateway, provenance tracker, mock tools,
-append-only artifact writer, and independent evaluator are trusted.  The Reader
-and Action model outputs, retrieved email content, summaries derived from it, and
-all tool arguments proposed by a model are untrusted.  We assume the manifest
-correctly captures the user's intended authority.
+The scenario manifest, capability gateway, provenance tracker, \texttt{ToolExecutor},
+\texttt{MockWorld}, append-only artifact writer, and independent evaluator are
+trusted.  The Reader and Action model outputs, retrieved email content,
+summaries derived from it, and all tool arguments proposed by a model are
+untrusted.  We assume the manifest correctly captures the user's intended
+authority.
 
 \paragraph{Attacker goals.}
 Success requires an observable world effect: a forbidden message recipient, an
@@ -174,96 +179,81 @@ side channels, encoded values, or attacks that exploit the model-serving stack.
 
 \subsection{Attacks}
 
-The frozen main experiment contains four deterministic calls to the same
-synthetic \texttt{send\_email} tool.  The calls model the two relevant ways in
-which an indirect prompt injection can influence a tool invocation: it can
-replace a high-impact argument (the recipient/target) with an externally
-supplied value, or it can supply ordinary text that should remain usable as
-message content.  The fourth case is a control for a legitimate user value
-that is changed by an explicitly registered format transformation.
+The strengthened experiment has three deterministic call scenarios, each run
+once under \texttt{capability\_only} and once under PACT with a fresh world.  All
+six records invoke the same local \texttt{send\_email} tool when the gateway
+allows the call.  The attacker can replace a high-impact recipient with a value
+from an external email, or can provide ordinary text that should remain usable
+as message content.  A benign user-selected Bob case checks that PACT does not
+block an explicitly authorized value.
 
-Each argument carries a role and an immutable provenance label.  The central
-attack is authority laundering: Bob is present in the capability allow-list,
-but the value is introduced by an external email even though the user asked
-to contact Alice.  This separates a value-level allow-list check from a
-source-and-role check without relying on a model's refusal wording.
-
-\begin{table}[t]
-\centering
-\caption{Frozen PACT mechanism cases.}
-\label{tab:pact-cases}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{llll}
-\toprule
-Case & Capability-only & PACT & Side effects \\
-\midrule
-User Alice $\rightarrow$ recipient & Allow & Allow & 1 \\
-External Bob, Bob allow-listed & Allow & Deny & 0 \\
-External text $\rightarrow$ content & Allow & Allow & 1 \\
-Registered Base64 user transform & Allow & Allow & 1 \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-\subsection{Defenses}
-
-Ordinary Capability-only checks compare a proposed value against the
-capability allow-list but ignore its provenance.  PACT first performs that
-same value check and then requires a trusted provenance level for the
-high-impact roles \texttt{recipient}, \texttt{target}, and \texttt{control}.
-External values remain permitted for the low-risk \texttt{content} role.  A
-format change is trusted only when the transformation registry contains the
-exact source hash, output hash, transformation name, and trusted source
-authority; the policy therefore uses an auditable provenance chain rather
-than fuzzy string matching.
-
-The second row is the authority-laundering/confused-deputy case: Bob is a legal
-value according to the manifest, but an external email is not trusted to bind
-Bob to the recipient role.  The third row prevents an over-broad policy from
-blocking all retrieved data.  The fourth row is accepted only when the exact
-source hash, output hash, transform name, and trusted source authority are
-present in an append-only transformation registry.
-
-\section{Evaluation}
-
-\subsection{Experimental Setup}
-
-The experiment has four frozen cases and two policy conditions.  Every case is
-executed with a fresh deterministic gateway and a synthetic side-effect ledger.
-The output records the parameter name, role, value, provenance source and
-transform chain, Capability-only decision, PACT decision, execution flag,
-side-effect count, reason, provenance digest, and decision-log SHA-256.
+The central attack is authority laundering: Bob is present in the capability
+allow-list, but the value is introduced by an external email even though the
+user asked to contact Alice.  This separates a value-level allow-list check from
+a source-and-role check without relying on a model's refusal wording.
 
 \begin{table}[t]
 \centering
 \scriptsize
-\caption{Minimum deterministic PACT evaluation.}
-\label{tab:minimum-matrix}
-\begin{tabular}{p{0.33\columnwidth}ccr}
+\caption{Six paired calls through the real local tool boundary.}
+\label{tab:pact-e2e}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{llcccc}
 \toprule
-Case & Capability-only & PACT & Side effects \\
+Case & Policy & $C$ & $P$ & Tool event & Outbox \\
 \midrule
-User selects Alice & Allow & Allow & 1 \\
-External Bob (allow-listed) & Allow & Deny & 0 \\
-External content body & Allow & Allow & 1 \\
-Registered Base64 transform & Allow & Allow & 1 \\
+External Bob, allow-listed recipient & Capability-only & Allow & Deny & Yes & 1 \\
+External Bob, allow-listed recipient & PACT & Allow & Deny & No & 0 \\
+User-selected Bob & Capability-only & Allow & Allow & Yes & 1 \\
+User-selected Bob & PACT & Allow & Allow & Yes & 1 \\
+External text, user-selected Alice & Capability-only & Allow & Allow & Yes & 1 \\
+External text, user-selected Alice & PACT & Allow & Allow & Yes & 1 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
-The reproducible entry point is
-\texttt{scripts/run\_pact\_minimum.py}.  It refuses to overwrite an existing
-artifact directory.  The committed artifact contains \texttt{results.csv},
-\texttt{results.json}, \texttt{decision\_log.jsonl}, and
-\texttt{architecture.mmd}, together with a manifest binding all output
-SHA-256 values to the code commit.
+The first pair is the authority-laundering case: capability-only reaches
+\texttt{MockWorld.send\_email}, whereas PACT denies before \texttt{ToolExecutor}.
+The third pair binds external data only to the low-risk \texttt{content} role;
+the user still supplies the Alice recipient.\subsection{Defenses}
 
-The enforcement path is: a user or external email supplies a value; the
-gateway attaches its provenance; the value is bound to a parameter role; and
-the capability and PACT checks jointly decide whether the tool call can reach
-the side-effect ledger.  In the authority-laundering case, the capability
-check returns Allow while the PACT role check returns Deny, so no tool call and
-no side effect are recorded.
+Ordinary capability-only checks compare each proposed value against the
+capability allow-list but ignore its provenance.  PACT performs that same value
+check and then requires trusted provenance for the high-impact roles
+\texttt{recipient}, \texttt{target}, and \texttt{control}.  External values
+remain permitted for the low-risk \texttt{content} role.
+
+The transformation registry is append-only, but acceptance uses exact matching:
+the source-value hash, output-value hash, transform name, and trusted source
+authority must all match one registered entry.  The strengthened matrix uses the
+semantically valid \texttt{NormalizeEmailAddress} transform.  A user-sourced
+normalized address is accepted; an unregistered transform or an externally
+claimed transform is denied.  This is provenance verification, not fuzzy string
+matching.\section{Evaluation}
+
+\subsection{Experimental Setup}
+
+The primary artifact is \texttt{artifacts/pact-strengthened-v2/}.  It contains
+six end-to-end records (three cases paired across \texttt{capability\_only} and
+PACT), an eight-row strategy matrix, a canonical JSONL decision log, an
+architecture file, a strategy plot, and a SHA-256 manifest.  Every end-to-end
+row starts from a fresh \texttt{MockWorld}; the gateway calls the existing
+\texttt{PACTToolGateway -> ToolExecutor -> MockWorld.send\_email} path.  A PACT
+deny is therefore observed as no tool event and no outbox mutation, rather than
+as a decision-only counter.
+
+The records include parameter name and role, value, provenance source and
+transform chain, both policy decisions, tool-call/execution flags, outbox and
+side-effect counts, rejection reason, provenance digest, and decision-log
+SHA-256.  The eight strategy rows are deliberately decision-only and exercise
+recipient, content, and control bindings plus registered, unregistered, and
+externally claimed \texttt{NormalizeEmailAddress} metadata.
+
+The reproducible entry point is
+\texttt{scripts/}\texttt{run\_pact\_strengthened.py} with output directory
+\texttt{artifacts/}\texttt{pact-strengthened-v2}.  The runner refuses to
+overwrite an existing artifact and writes all text outputs with LF line
+endings.
 
 \begin{figure}[t]
 \centering
@@ -271,66 +261,75 @@ no side effect are recorded.
 \begin{minipage}{0.86\columnwidth}
 \centering
 \texttt{user / external email}\par
-$\downarrow$ attach provenance\par
-\texttt{recipient | target | content}\par
-$\downarrow$ capability + PACT checks\par
-\texttt{ALLOW: tool call + side effect}\par
-\texttt{DENY: no call + no side effect}
+$\downarrow$ attach immutable provenance\par
+\texttt{recipient | target | content | control}\par
+$\downarrow$ exact capability + PACT checks\par
+\texttt{ALLOW: ToolExecutor -> MockWorld.send\_email}\par
+\texttt{DENY: no tool event + no outbox side effect}
 \end{minipage}}
-\caption{The deterministic PACT enforcement path at the tool boundary.}
+\caption{PACT enforcement at the local tool boundary.}
 \label{fig:pact-flow}
 \end{figure}
 
 \paragraph{Decision-log excerpt.}
 A representative blocked row records
 \texttt{case\_id=external-bob-allowlisted}, \texttt{role=recipient}, and
-\texttt{source=external:email-evil}.  Its decisions are
-\texttt{capability=Allow}, \texttt{pact=Deny}, \texttt{executed=0}, and
-\texttt{side\_effects=0}; the complete row also stores the provenance
-digest and decision-log SHA-256 in the committed JSONL artifact.
+\texttt{source=external:email-evil}.  It records
+\texttt{capability=Allow}, \texttt{pact=Deny}, \texttt{executed=0},
+\texttt{tool\_events=[]}, and \texttt{outbox\_count=0}; the complete row also
+stores the provenance digest and decision-log SHA-256 in the committed JSONL
+artifact.
 
 \subsection{Outcome Definitions}
 
 For each argument, $C$ denotes the ordinary Capability-only decision and $P$
 denotes the PACT decision.  $X$ denotes an executed tool call and $S$ denotes
-a synthetic side effect.  The mechanism checks require $X=S=1$ only when
+a local MockWorld side effect.  The mechanism checks require $X=S=1$ only when
 $C=P=1$.  A denied call must have $X=S=0$.  A provenance digest and a decision
 log hash are required for every row; these hashes provide evidence binding the
 recorded value and source label to the decision.
 
 \subsection{Results}
 
-The four cases reproduce exactly as follows:
+The six real-tool records reproduce the central contrast shown in
+Table~\ref{tab:pact-e2e}.  Under capability-only, the external allow-listed Bob
+call is allowed and produces one tool event plus one outbox message.  Under
+PACT, the same call has $C=\mathrm{Allow}$ but $P=\mathrm{Deny}$; it is blocked
+before \texttt{ToolExecutor}, with no tool event and zero outbox entries.  User
+Bob and external content sent to the user's Alice recipient are both allowed by
+both policies and each produces one outbox message.
+
+The eight-row strategy matrix is:
 
 \begin{table}[t]
 \centering
-\caption{PACT versus ordinary capability gating.}
-\label{tab:pact-results}
-\begin{tabular}{p{0.38\columnwidth}ccr}
+\scriptsize
+\caption{Strengthened PACT policy matrix (decision-only rows).}
+\label{tab:pact-strategy}
+\begin{tabular}{p{0.50\columnwidth}cc}
 \toprule
-Case & $C$ & $P$ & $S$ \\
+Strategy row & Capability-only & PACT \\
 \midrule
-User Alice as recipient & Allow & Allow & 1 \\
-External Bob as recipient & Allow & Deny & 0 \\
-External email as content & Allow & Allow & 1 \\
-Registered Base64 user value & Allow & Allow & 1 \\
+User $\rightarrow$ recipient, no transform & Allow & Allow \\
+External $\rightarrow$ recipient, no transform & Allow & Deny \\
+External $\rightarrow$ content, no transform & Allow & Allow \\
+User $\rightarrow$ recipient, registered NormalizeEmailAddress & Allow & Allow \\
+User $\rightarrow$ recipient, unregistered transform & Allow & Deny \\
+External $\rightarrow$ recipient, claimed registered transform & Allow & Deny \\
+User $\rightarrow$ control, no transform & Allow & Allow \\
+External $\rightarrow$ control, no transform & Allow & Deny \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Capability-only allows all four capability-valid values (4/4).  PACT allows
-the user-selected value, the low-risk external content, and the registered
-transformation (3/4), while blocking the externally supplied allow-listed Bob
-in the high-trust recipient role (1/1 targeted authority-laundering case).
-The blocked row has zero tool calls and zero synthetic side effects; the three
-allowed rows each have one side effect.
-
-The second case is the central result.  Capability-only cannot distinguish an
-allow-listed Bob supplied by the user from an allow-listed Bob supplied by an
-external email.  PACT rejects only the high-trust role binding, without
-blocking the content case.  The registered transformation case demonstrates
-that provenance can survive a format change when the transformation is
-explicitly recorded and hash-verified.
+All eight rows pass the capability allow-list.  PACT allows the user recipient,
+external content, registered user transformation, and user control rows (4/8),
+while denying the externally sourced high-trust bindings and the unverified
+transform claims (4/8).  Because the matrix is decision-only, its rows do not
+claim a tool side effect; the side-effect claim comes only from the six paired
+records.  The machine-readable files are \texttt{e2e\_results.csv/json},
+\texttt{strategy\_results.csv/json}, and \texttt{decision\_log.jsonl}; their
+hashes are recorded in \texttt{manifest.json}.
 
 \subsection{External AgentDojo Baseline}
 
@@ -338,7 +337,7 @@ We retain the pinned Qwen3-VL-8B AgentDojo result as an external realism check:
 Qwen3-VL-8B remains vulnerable to indirect prompt injection, and the effect of
 a simple repeat-user-prompt defense depends on attack family and suite.  This
 result motivates the problem but does not evaluate PACT and is not merged with
-Table~\ref{tab:pact-results}.  The frozen baseline and its SHA-256 manifests
+Table~\ref{tab:pact-e2e}.  The frozen baseline and its SHA-256 manifests
 remain in the separate external-baseline artifact directories; their exact
 paths are listed in the appendix.
 
@@ -347,24 +346,29 @@ paths are listed in the appendix.
 \subsection{Interpretation}
 
 The results support a precise mechanism claim rather than a broad security
-claim.  Ordinary capability gating answers ``is this value allowed?''  PACT
-adds ``is this source trusted for this role?''  Thus the allow-listed external
-Bob is denied only when bound to \texttt{recipient}; external email text still
-reaches \texttt{content}, and a user value survives a registered Base64
-transformation.  The four cases are deterministic and intentionally small so
-that every decision and side effect can be inspected.
+claim.  Ordinary capability gating answers ``is this value allowed?''  PACT adds
+``is this source trusted for this role?''  The strengthened real-tool pair shows
+that this distinction changes an observable side effect: an allow-listed Bob
+from an external email is sent by capability-only but is stopped before
+\texttt{ToolExecutor} by PACT.  PACT still allows external text at
+\texttt{content}, preserves an explicitly selected Bob, and accepts only a
+hash-verified registered \texttt{NormalizeEmailAddress} transformation.
 
 \subsection{Limitations}
 
-The capability manifest is assumed correct and the PACT cases use a synthetic
-side-effect ledger rather than a production messaging service.  Provenance is
-explicit and hash-based, not semantic: unregistered decoding, paraphrases,
-partial values, and transformations omitted from the registry are outside the
-claim.  The experiment uses one tool contract, one local implementation, one
-model-independent deterministic policy, and no multi-seed or multi-model
-variance.  The AgentDojo benchmark is retained as an external baseline only.
-Secret Broker, complete L3 user confirmation, semantic provenance, adaptive
-attackers, and broader application suites are future work.
+The capability manifest is assumed correct and the strengthened experiment uses
+an in-memory local \texttt{MockWorld}, not a production messaging service.
+The tool boundary is real within the repository, but all accounts, messages,
+and side effects are synthetic.  Provenance is explicit and hash-based, not
+semantic: unregistered decoding, paraphrases, partial values, and
+transformations omitted from the exact-match registry are outside the claim.
+The experiment uses one tool contract, one local implementation, one
+deterministic policy, and no multi-seed or multi-model variance.  The eight-row
+matrix is decision-only; only the six paired calls measure actual outbox side
+effects.  The AgentDojo benchmark is retained as an external attack-realism
+baseline only and is not merged with PACT metrics.  Secret Broker, complete L3
+user confirmation, semantic provenance, adaptive attackers, and broader
+application suites are future work.
 
 \subsection{Ethics and Safety}
 
@@ -379,15 +383,25 @@ guaranteed bypass of unrelated production systems.
 
 \subsection{Reproducibility}
 
-The primary artifact is self-contained.  The directory
-\texttt{pact-minimum-v2} contains the four-case \texttt{results.json} and
-\texttt{results.csv}, the append-only \texttt{decision\_log.jsonl}, the
-Mermaid architecture file, and a manifest binding output SHA-256 values to the
-recorded code commit.  The deterministic replay entry point is
-\texttt{scripts/run\_pact\_minimum.py}; it refuses to overwrite an existing
-artifact directory.  Unit tests run in the
-cluster's \texttt{test} Conda environment and require no model server.  The
-pinned AgentDojo artifacts are separate external-baseline evidence.
+The current primary artifact is self-contained under
+\texttt{artifacts/pact-strengthened-v2/}.  Its
+\texttt{e2e\_results.csv/json} contain six real-tool records;
+\texttt{strategy\_results.csv/json} contain eight decision-only rows;
+\texttt{decision\_log.jsonl} contains canonical structured decisions;
+\texttt{strategy\_matrix.svg} and \texttt{architecture.mmd} provide compact
+visual summaries; and \texttt{manifest.json} records the code commit plus
+SHA-256 for every output.  The manifest's \texttt{outputs} and
+\texttt{output\_sha256} maps are identical.  All persisted text is LF-canonical.
+
+The replay command runs
+\texttt{PYTHONPATH=src python} followed by
+\texttt{scripts/}\texttt{run\_pact\_strengthened.py}; it writes to the
+\texttt{pact-strengthened-v2} directory and refuses to overwrite an existing
+artifact.  The artifact is bound to commit
+\texttt{2aaad60c}.  The full commit is recorded in the manifest.  The earlier
+\texttt{pact-minimum-v2}/v1 artifacts and pinned AgentDojo outputs are retained
+as historical or external-baseline evidence and are not merged into the PACT
+metrics.
 
 \subsection{AI-Use Disclosure}
 
@@ -395,9 +409,9 @@ Generative AI systems were used as engineering and writing assistants: to help
 scaffold code and tests, review threat-model and experimental-design choices,
 draft documentation, and, for historical supplementary experiments, generate
 offline synthetic attack candidates.  Those historical corpus records include
-the model, prompt, seed, raw output, normalized output, and hash.  The primary
-PACT four-case artifact is deterministic and does not depend on a model
-response.  Human team members remain responsible for the research question,
+the model, prompt, seed, raw output, normalized output, and hash.  The primary strengthened PACT artifact is deterministic and does not
+depend on a model response; its six paired calls execute through the local tool
+boundary.  Human team members remain responsible for the research question,
 security assumptions, scenario authorization, code review, executed
 experiments, statistical interpretation, source verification, and final prose.
 AI-generated content is not accepted as evidence; claims are supported by saved
@@ -427,16 +441,20 @@ peer-evaluation form should use the same equal-contribution statement.
 
 \section{Conclusion}
 
-We presented PACT, a deterministic provenance-aware capability monitor for
-multi-agent tool calls.  In four frozen cases, ordinary capability checks allow
-both user- and externally supplied allow-listed values, whereas PACT rejects
-the externally supplied value when it is bound to the high-trust recipient
-role.  PACT still allows external content at a low-risk role and allows a user
-value after a registered, hash-verified Base64 transformation.  The artifact
-contains the decision records, side-effect counts, provenance digests, and
-manifest hashes needed to reproduce these claims.  The result is a focused
-course-project mechanism demonstration, not a claim of complete semantic
-information-flow security.
+We presented PACT, a provenance-aware capability monitor for multi-agent tool
+calls, and strengthened its evidence with a real local tool boundary.  In six
+paired calls through \texttt{PACTToolGateway -> ToolExecutor -> MockWorld},
+ordinary capability checks send an externally supplied allow-listed Bob,
+whereas PACT rejects the same high-trust recipient before the executor and
+leaves no outbox side effect.  User-selected Bob and external email text bound
+only to \texttt{content} are sent by both policies.  An eight-row strategy matrix
+further shows exact role and transformation behavior: a registered
+\texttt{NormalizeEmailAddress} result is accepted, while unregistered or
+externally claimed transforms are denied.  The artifact contains the records,
+decision logs, provenance digests, LF-canonical outputs, and manifest hashes
+needed to reproduce these claims.  The result is a focused course-project
+mechanism demonstration on a synthetic local system, not a claim of complete
+production or semantic information-flow security.
 
 \nocite{*}
 \bibliographystyle{IEEEtran}
@@ -447,11 +465,17 @@ information-flow security.
 
 \subsection*{Artifact and replay pointers}
 
-The primary PACT artifact is under \path{artifacts/pact-minimum-v2/}; its
-manifest records output hashes and the code commit.  Historical original and
-hardened factorial plans, frozen attack corpora, and AgentDojo summaries remain
-under their existing paths as supplementary evidence and are not mixed with
-the four-case PACT results.  The report can be rebuilt with
+The primary PACT artifact is under
+\path{artifacts/pact-strengthened-v2/}.  The six real-tool records are in
+\path{e2e_results.csv} and \path{e2e_results.json}; the eight strategy rows are
+in \path{strategy_results.csv} and \path{strategy_results.json}; the decision
+log is \path{decision_log.jsonl}; and the plot, architecture, and SHA-256
+manifest are \path{strategy_matrix.svg}, \path{architecture.mmd}, and
+\path{manifest.json}.  The artifact is bound to the strengthened runner commit
+and uses LF-canonical output.  Historical \path{pact-minimum-v2}/v1 artifacts,
+frozen attack corpora, factorial runs, and AgentDojo summaries remain under
+their existing paths as supplementary or external-baseline evidence and are not
+mixed with the strengthened PACT metrics.  The report can be rebuilt with
 \path{bash scripts/compile_report.sh}; deterministic controller tests use the
 repository's \texttt{test} Conda environment.
 
