@@ -157,7 +157,9 @@ experiments.
 \paragraph{Trusted computing base.}
 The scenario manifest, capability gateway, provenance tracker, \texttt{ToolExecutor},
 \texttt{MockWorld}, append-only artifact writer, and independent evaluator are
-trusted.  The Reader and Action model outputs, retrieved email content,
+trusted. In particular, the tracker and gateway enforce source-authority and
+value-hash consistency before role checks; model-proposed provenance labels and
+tool arguments are untrusted.  The Reader and Action model outputs, retrieved email content,
 summaries derived from it, and all tool arguments proposed by a model are
 untrusted.  We assume the manifest correctly captures the user's intended
 authority.
@@ -215,7 +217,9 @@ External text, user-selected Alice & PACT & Allow & Allow & Yes & 1 \\
 The first pair is the authority-laundering case: capability-only reaches
 \texttt{MockWorld.send\_email}, whereas PACT denies before \texttt{ToolExecutor}.
 The third pair binds external data only to the low-risk \texttt{content} role;
-the user still supplies the Alice recipient.\subsection{Defenses}
+the user still supplies the Alice recipient.
+
+\subsection{Defenses}
 
 Ordinary capability-only checks compare each proposed value against the
 capability allow-list but ignore its provenance.  PACT performs that same value
@@ -223,17 +227,20 @@ check and then requires trusted provenance for the high-impact roles
 \texttt{recipient}, \texttt{target}, and \texttt{control}.  External values
 remain permitted for the low-risk \texttt{content} role.
 
-The transformation registry is append-only, but acceptance uses exact matching:
-the source-value hash, output-value hash, transform name, and trusted source
-authority must all match one registered entry.  The strengthened matrix uses the
-semantically valid \texttt{NormalizeEmailAddress} transform.  A user-sourced
-normalized address is accepted; an unregistered transform or an externally
-claimed transform is denied.  This is provenance verification, not fuzzy string
-matching.\section{Evaluation}
+The transformation registry is an exact-match registry: the source-value hash,
+output-value hash, transform name, and trusted source authority must all match one
+registered entry.  The strengthened matrix uses the semantically valid
+\texttt{NormalizeEmailAddress} transform.  A user-sourced normalized address is
+accepted; an unregistered transform is denied.  For the external-source row, the
+same source/output hashes are registered under trusted USER authority, but the
+EXTERNAL source metadata does not match that exact key and is denied.  This is
+provenance verification, not fuzzy string matching.
+
+\section{Evaluation}
 
 \subsection{Experimental Setup}
 
-The primary artifact is \texttt{artifacts/pact-strengthened-v2/}.  It contains
+The primary artifact is \texttt{artifacts/pact-strengthened-v3/}.  It contains
 six end-to-end records (three cases paired across \texttt{capability\_only} and
 PACT), an eight-row strategy matrix, a canonical JSONL decision log, an
 architecture file, a strategy plot, and a SHA-256 manifest.  Every end-to-end
@@ -245,13 +252,17 @@ as a decision-only counter.
 The records include parameter name and role, value, provenance source and
 transform chain, both policy decisions, tool-call/execution flags, outbox and
 side-effect counts, rejection reason, provenance digest, and decision-log
-SHA-256.  The eight strategy rows are deliberately decision-only and exercise
-recipient, content, and control bindings plus registered, unregistered, and
-externally claimed \texttt{NormalizeEmailAddress} metadata.
+SHA-256.  The JSON contains six case-policy records, while the CSV expands their
+arguments into 18 parameter rows.  The eight strategy rows are deliberately
+decision-only and exercise recipient, low-risk content, and control (the
+representative high-trust role) bindings plus registered, unregistered, and
+externally sourced \texttt{NormalizeEmailAddress} metadata.  Although
+\texttt{target} is also declared high-trust in the policy, it is not separately
+instantiated in this small matrix.
 
 The reproducible entry point is
 \texttt{scripts/}\texttt{run\_pact\_strengthened.py} with output directory
-\texttt{artifacts/}\texttt{pact-strengthened-v2}.  The runner refuses to
+\texttt{artifacts/}\texttt{pact-strengthened-v3}.  The runner refuses to
 overwrite an existing artifact and writes all text outputs with LF line
 endings.
 
@@ -277,8 +288,9 @@ A representative blocked row records
 \texttt{source=external:email-evil}.  It records
 \texttt{capability=Allow}, \texttt{pact=Deny}, \texttt{executed=0},
 \texttt{tool\_events=[]}, and \texttt{outbox\_count=0}; the complete row also
-stores the provenance digest and decision-log SHA-256 in the committed JSONL
-artifact.
+stores the provenance digest and a deterministic decision-record SHA-256 in the
+committed JSONL artifact.  This digest is computed over the canonical decision
+payload; it is not a literal hash of the JSONL line containing the record.
 
 \subsection{Outcome Definitions}
 
@@ -315,7 +327,7 @@ External $\rightarrow$ recipient, no transform & Allow & Deny \\
 External $\rightarrow$ content, no transform & Allow & Allow \\
 User $\rightarrow$ recipient, registered NormalizeEmailAddress & Allow & Allow \\
 User $\rightarrow$ recipient, unregistered transform & Allow & Deny \\
-External $\rightarrow$ recipient, claimed registered transform & Allow & Deny \\
+External $\rightarrow$ recipient, registered name but EXTERNAL source & Allow & Deny \\
 User $\rightarrow$ control, no transform & Allow & Allow \\
 External $\rightarrow$ control, no transform & Allow & Deny \\
 \bottomrule
@@ -384,10 +396,13 @@ guaranteed bypass of unrelated production systems.
 \subsection{Reproducibility}
 
 The current primary artifact is self-contained under
-\texttt{artifacts/pact-strengthened-v2/}.  Its
-\texttt{e2e\_results.csv/json} contain six real-tool records;
+\texttt{artifacts/pact-strengthened-v3/}.  Its
+\texttt{e2e\_results.json} contains six case-policy records, while
+\texttt{e2e\_results.csv} expands their arguments into 18 parameter rows;
 \texttt{strategy\_results.csv/json} contain eight decision-only rows;
-\texttt{decision\_log.jsonl} contains canonical structured decisions;
+\texttt{decision\_log.jsonl} contains canonical structured decisions; each
+\texttt{decision\_log\_sha256} is a deterministic digest of its decision
+record payload, not a literal JSONL line hash;
 \texttt{strategy\_matrix.svg} and \texttt{architecture.mmd} provide compact
 visual summaries; and \texttt{manifest.json} records the code commit plus
 SHA-256 for every output.  The manifest's \texttt{outputs} and
@@ -396,9 +411,9 @@ SHA-256 for every output.  The manifest's \texttt{outputs} and
 The replay command runs
 \texttt{PYTHONPATH=src python} followed by
 \texttt{scripts/}\texttt{run\_pact\_strengthened.py}; it writes to the
-\texttt{pact-strengthened-v2} directory and refuses to overwrite an existing
+\texttt{pact-strengthened-v3} directory and refuses to overwrite an existing
 artifact.  The artifact is bound to commit
-\texttt{2aaad60c}.  The full commit is recorded in the manifest.  The earlier
+\texttt{3b7f886b3e5b10fc26bf1e62ff7ffd24cd5ac0e0}.  The full commit is recorded in the manifest.  The earlier
 \texttt{pact-minimum-v2}/v1 artifacts and pinned AgentDojo outputs are retained
 as historical or external-baseline evidence and are not merged into the PACT
 metrics.
@@ -466,7 +481,7 @@ production or semantic information-flow security.
 \subsection*{Artifact and replay pointers}
 
 The primary PACT artifact is under
-\path{artifacts/pact-strengthened-v2/}.  The six real-tool records are in
+\path{artifacts/pact-strengthened-v3/}.  The six real-tool records are in
 \path{e2e_results.csv} and \path{e2e_results.json}; the eight strategy rows are
 in \path{strategy_results.csv} and \path{strategy_results.json}; the decision
 log is \path{decision_log.jsonl}; and the plot, architecture, and SHA-256

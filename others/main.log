@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.1)  25 JUL 2026 19:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.1)  26 JUL 2026 17:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -461,86 +461,322 @@ Package hyperref Info: Link coloring OFF on input line 27.
 \@outlinefile=\write3
 \openout3 = `main.out'.
 
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 106.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 46.
  (/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 ) [1{/hpc2hdd/home/ckwong627/.TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 205.
- (/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+Underfull \hbox (badness 10000) in paragraph at lines 158--166
+ \T1/ptm/m/it/10 b) Trusted com-put-ing base.: [][] \T1/ptm/m/n/10 The sce-nario
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 158--166
+\T1/ptm/m/n/10 man-i-fest, ca-pa-bil-ity gate-way, prove-nance tracker,
+ []
+
+
+Underfull \hbox (badness 4328) in paragraph at lines 158--166
+\T1/ptm/m/n/10 writer, and in-de-pen-dent eval-u-a-tor are trusted. In
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--191
+[]\T1/ptm/m/n/10 The strength-ened ex-per-i-ment has three
+ []
+
+
+Underfull \hbox (badness 3068) in paragraph at lines 184--191
+\T1/ptm/m/n/10 de-ter-min-is-tic call sce-nar-ios, each run once un-der
+ []
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 214.
+(/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 205.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 214.
  (/hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 1824) in paragraph at lines 210--219
-[]\T1/ptm/m/n/10 Ordinary Capability-only checks com-pare a pro-
+Underfull \hbox (badness 3746) in paragraph at lines 217--221
+[]\T1/ptm/m/n/10 The first pair is the authority-laundering case:
+ []
+
+
+Underfull \hbox (badness 2564) in paragraph at lines 217--221
+\T1/ptm/m/n/10 capability-only reaches \T1/pcr/m/n/10 MockWorld.send_email\T1/ptm/m/n/10 ,
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 247--247
-[]\T1/ptm/m/n/7 External Bob (allow-
+Underfull \hbox (badness 10000) in paragraph at lines 243--251
+[]\T1/ptm/m/n/10 The pri-mary ar-ti-fact is
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 254--260
+Underfull \hbox (badness 10000) in paragraph at lines 243--251
+\T1/pcr/m/n/10 artifacts/pact-strengthened-v3/\T1/ptm/m/n/10 . It
+ []
+
+
+Underfull \hbox (badness 1648) in paragraph at lines 243--251
+\T1/ptm/m/n/10 across \T1/pcr/m/n/10 capability_only \T1/ptm/m/n/10 and PACT), an eight-
+ []
+
+
+Underfull \hbox (badness 2512) in paragraph at lines 243--251
+\T1/ptm/m/n/10 row strat-egy ma-trix, a canon-i-cal JSONL de-ci-sion
+ []
+
+
+Underfull \hbox (badness 1360) in paragraph at lines 243--251
+\T1/ptm/m/n/10 256 man-i-fest. Ev-ery end-to-end row starts from a
+ []
+
+
+Underfull \hbox (badness 1867) in paragraph at lines 243--251
+\T1/ptm/m/n/10 fresh \T1/pcr/m/n/10 MockWorld\T1/ptm/m/n/10 ; the gate-way calls the ex-ist-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 243--251
+\T1/pcr/m/n/10 PACTToolGateway -> ToolExecutor ->
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 263--268
 []\T1/ptm/m/n/10 The re-pro-ducible en-try point is
  []
 
 
-Underfull \hbox (badness 1742) in paragraph at lines 254--260
-\T1/pcr/m/n/10 scripts/run_pact_minimum.py\T1/ptm/m/n/10 . It re-fuses to
+Underfull \hbox (badness 10000) in paragraph at lines 263--268
+\T1/pcr/m/n/10 scripts/run_pact_strengthened.py
  []
 
 
-Underfull \hbox (badness 2894) in paragraph at lines 254--260
-\T1/ptm/m/n/10 ar-ti-fact con-tains \T1/pcr/m/n/10 results.csv\T1/ptm/m/n/10 , \T1/pcr/m/n/10 results.json\T1/ptm/m/n/10 ,
+Underfull \hbox (badness 10000) in paragraph at lines 263--268
+\T1/ptm/m/n/10 with out-put di-rec-tory
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--291
+Underfull \hbox (badness 10000) in paragraph at lines 263--268
+\T1/pcr/m/n/10 artifacts/pact-strengthened-v3\T1/ptm/m/n/10 . The
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 286--294
  \T1/ptm/m/it/10 a) Decision-log ex-cerpt.: [][] \T1/ptm/m/n/10 A rep-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--291
+Underfull \hbox (badness 10000) in paragraph at lines 286--294
 \T1/ptm/m/n/10 re-sen-ta-tive blocked row records
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--291
+Underfull \hbox (badness 10000) in paragraph at lines 286--294
 \T1/pcr/m/n/10 case_id=external-bob-allowlisted\T1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 285--291
+Underfull \hbox (badness 10000) in paragraph at lines 286--294
 \T1/pcr/m/n/10 role=recipient\T1/ptm/m/n/10 , and
  []
 
 
-Underfull \hbox (badness 8113) in paragraph at lines 316--316
-[]\T1/ptm/m/n/8 Registered Base64 user
+Underfull \hbox (badness 10000) in paragraph at lines 286--294
+\T1/pcr/m/n/10 source=external:email-evil\T1/ptm/m/n/10 . It records
+ []
+
+
+Underfull \hbox (badness 6859) in paragraph at lines 286--294
+\T1/pcr/m/n/10 tool_events=[]\T1/ptm/m/n/10 , and \T1/pcr/m/n/10 outbox_count=0\T1/ptm/m/n/10 ; the
+ []
+
+
+Underfull \hbox (badness 5667) in paragraph at lines 286--294
+\T1/ptm/m/n/10 com-plete row also stores the prove-nance di-gest
+ []
+
+
+Underfull \hbox (badness 6944) in paragraph at lines 337--345
+[]\T1/ptm/m/n/10 All eight rows pass the ca-pa-bil-ity allow-list.
+ []
+
+
+Underfull \hbox (badness 2818) in paragraph at lines 337--345
+\T1/ptm/m/n/10 PACT al-lows the user re-cip-i-ent, ex-ter-nal con-tent,
+ []
+
+
+Underfull \hbox (badness 2600) in paragraph at lines 337--345
+\T1/ptm/m/n/10 Be-cause the ma-trix is decision-only, its rows do
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 337--345
+\T1/ptm/m/n/10 readable files are \T1/pcr/m/n/10 e2e_results.csv/json\T1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 337--345
+\T1/pcr/m/n/10 strategy_results.csv/json\T1/ptm/m/n/10 , and
  []
 
 [3]
-Underfull \hbox (badness 3690) in paragraph at lines 382--391
-[]\T1/ptm/m/n/10 The pri-mary ar-ti-fact is self-contained. The di-
+Underfull \hbox (badness 2173) in paragraph at lines 371--384
+[]\T1/ptm/m/n/10 The ca-pa-bil-ity man-i-fest is as-sumed cor-rect and
  []
 
 
-Underfull \hbox (badness 1796) in paragraph at lines 382--391
-\T1/pcr/m/n/10 decision_log.jsonl\T1/ptm/m/n/10 , the Mer-maid ar-chi-tec-ture
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+[]\T1/ptm/m/n/10 The cur-rent pri-mary ar-ti-fact is self-contained
  []
 
-[4] (./main.bbl)
-Underfull \hbox (badness 1968) in paragraph at lines 450--457
-\T1/pcr/m/n/10 pact-[]minimum-[]v2/$\T1/ptm/m/n/10 ; its man-i-fest records out-put
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/ptm/m/n/10 un-der \T1/pcr/m/n/10 artifacts/pact-strengthened-v3/\T1/ptm/m/n/10 .
  []
 
-[5] (./main.aux)
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/ptm/m/n/10 Its \T1/pcr/m/n/10 e2e_results.json \T1/ptm/m/n/10 con-tains six case-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/ptm/m/n/10 policy records, while \T1/pcr/m/n/10 e2e_results.csv
+ []
+
+
+Underfull \hbox (badness 2990) in paragraph at lines 398--410
+\T1/ptm/m/n/10 ex-pands their ar-gu-ments into 18 pa-ram-e-ter rows;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/pcr/m/n/10 strategy_results.csv/json \T1/ptm/m/n/10 con-tain eight
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/ptm/m/n/10 decision-only rows; \T1/pcr/m/n/10 decision_log.jsonl
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/ptm/m/n/10 con-tains canon-i-cal struc-tured de-ci-sions; each
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/pcr/m/n/10 decision_log_sha256 \T1/ptm/m/n/10 is a de-ter-min-is-tic
+ []
+
+
+Underfull \hbox (badness 3884) in paragraph at lines 398--410
+\T1/ptm/m/n/10 JSONL line hash; \T1/pcr/m/n/10 strategy_matrix.svg \T1/ptm/m/n/10 and
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--410
+\T1/pcr/m/n/10 architecture.mmd \T1/ptm/m/n/10 pro-vide com-pact vi-sual
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--420
+[]\T1/ptm/m/n/10 The re-play com-mand runs
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--420
+\T1/pcr/m/n/10 PYTHONPATH=src python \T1/ptm/m/n/10 fol-lowed by
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--420
+\T1/pcr/m/n/10 scripts/run_pact_strengthened.py\T1/ptm/m/n/10 ;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--420
+\T1/ptm/m/n/10 it writes to the \T1/pcr/m/n/10 pact-strengthened-v3
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--420
+\T1/ptm/m/n/10 di-rec-tory and re-fuses to over-write an ex-ist-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 411--420
+\T1/ptm/m/n/10 ar-ti-fact. The ar-ti-fact is bound to com-mit
+ []
+
+
+Overfull \hbox (13.6225pt too wide) in paragraph at lines 411--420
+\T1/pcr/m/n/10 3b7f886b3e5b10fc26bf1e62ff7ffd24cd5ac0e0\T1/ptm/m/n/10 .
+ []
+
+[4] (./main.bbl) [5]
+Underfull \hbox (badness 10000) in paragraph at lines 483--496
+[]\T1/ptm/m/n/10 The pri-mary PACT ar-ti-fact is un-der
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--496
+\T1/pcr/m/n/10 artifacts / pact-[]strengthened-[]v3/$\T1/ptm/m/n/10 . The
+ []
+
+
+Underfull \hbox (badness 4353) in paragraph at lines 483--496
+\T1/ptm/m/n/10 six real-tool records are in $\T1/pcr/m/n/10 e2e _ results . csv$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--496
+\T1/ptm/m/n/10 and $\T1/pcr/m/n/10 e2e _ results . json$\T1/ptm/m/n/10 ; the eight strat-egy
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--496
+\T1/ptm/m/n/10 rows are in $\T1/pcr/m/n/10 strategy _ results . csv$ \T1/ptm/m/n/10 and
+ []
+
+
+Underfull \hbox (badness 4341) in paragraph at lines 483--496
+\T1/pcr/m/n/10 strategy _ results . json$\T1/ptm/m/n/10 ; the de-ci-sion log is
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--496
+\T1/pcr/m/n/10 architecture . mmd$\T1/ptm/m/n/10 , and $\T1/pcr/m/n/10 manifest . json$\T1/ptm/m/n/10 .
+ []
+
+
+Underfull \hbox (badness 2753) in paragraph at lines 483--496
+\T1/ptm/m/n/10 The ar-ti-fact is bound to the strength-ened run-ner
+ []
+
+
+Underfull \hbox (badness 5388) in paragraph at lines 483--496
+\T1/ptm/m/n/10 com-mit and uses LF-canonical out-put. His-tor-i-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--496
+\T1/pcr/m/n/10 pact-[]minimum-[]v2$\T1/ptm/m/n/10 /v1 ar-ti-facts, frozen at-tack
+ []
+
+
+Underfull \hbox (badness 2951) in paragraph at lines 483--496
+\T1/ptm/m/n/10 cor-pora, fac-to-rial runs, and Agent-Dojo sum-maries
+ []
+
+[6
+
+] (./main.aux)
  ***********
 LaTeX2e <2023-11-01>
 L3 programming layer <2023-12-11>
@@ -549,18 +785,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 7FBFA297A9CD0A1DEC3398623AF7FAD9;3751.
  ) 
 Here is how much of TeX's memory you used:
- 12044 strings out of 476135
- 188350 string characters out of 5794789
- 1945457 words of memory out of 5000000
- 33868 multiletter control sequences out of 15000+600000
- 671018 words of font info for 150 fonts, out of 8000000 for 9000
+ 12027 strings out of 476135
+ 188165 string characters out of 5794789
+ 1944457 words of memory out of 5000000
+ 33856 multiletter control sequences out of 15000+600000
+ 668539 words of font info for 140 fonts, out of 8000000 for 9000
  18 hyphenation exceptions out of 8191
- 75i,10n,79p,541b,444s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 149364 bytes).
+ 75i,11n,79p,541b,444s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></hpc2hdd/home/ckwong627/.TinyTeX/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (6 pages, 162089 bytes).
 PDF statistics:
- 230 PDF objects out of 1000 (max. 8388607)
- 199 compressed objects within 2 object streams
+ 235 PDF objects out of 1000 (max. 8388607)
+ 202 compressed objects within 3 object streams
  52 named destinations out of 1000 (max. 500000)
  209 words of extra memory for PDF output out of 10000 (max. 10000000)
 
