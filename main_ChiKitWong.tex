@@ -552,6 +552,55 @@ the model-driven factorial provides supplementary system-level behavior under
 model stochasticity. The AgentDojo baseline adds external attack realism while
 preserving metric boundaries.
 
+\subsection{Security Invariants and Evidence-to-Claim Mapping}
+
+PACT is best understood as a reference-monitor policy over structured tool
+arguments, not as a claim that the language model never follows an injected
+instruction. For a proposed call with tool $t$ and arguments $a_i$, the gateway
+checks whether the task manifest authorizes the tool and values, whether each
+argument's provenance meets the authority required by its role, and whether any
+derived value exactly matches a registered source, output, and transformation.
+All applicable checks must hold before execution, so the protected property does
+not depend on the model recognizing or refusing the attack text.
+
+The first invariant is task-scoped least authority. Every executed call must
+satisfy tool, resource, recipient, participant, parameter-range, and call-count
+constraints. This explains why capability-enabled defenses stop the observed
+T1--T4 violations, while preserving the explicit assumption that the manifest
+itself is a correct authorization oracle.
+
+The second invariant is that data validity does not imply authority. Bob is a
+valid allow-listed recipient in the deterministic case, so Capability-Only
+accepts him even when the value comes from external email. PACT rejects that
+binding because external provenance cannot authorize the high-impact
+\texttt{recipient} role. Likewise, a recognized transformation name cannot
+upgrade source authority: only an exact registered transformation of a trusted
+source preserves the authority required by the destination role.
+
+The third invariant is selective usability rather than blanket distrust.
+External text remains usable in the low-risk \texttt{content} role when the
+recipient is user-authorized. A denied high-impact argument is stopped before
+\texttt{ToolExecutor}, leaving no tool event or outbox side effect. Together,
+these cases test both authority-laundering resistance and preservation of benign
+user selection and external-content handling.
+
+The evidence layers support different claims. Six tool-boundary records connect
+decisions to actual synthetic side effects; the eight-row matrix isolates role
+and transformation combinations; the factorial experiment exercises
+model-generated proposals and exposes clean-task cost; and the sink-pressure
+test covers multiple outbound fields. AgentDojo supplies broader attack realism
+but is not treated as a PACT evaluation, so its denominators and metric
+semantics remain separate.
+
+These invariants hold only inside the stated trusted boundary. They do not cover
+forged provenance labels, an incorrect manifest, unmediated sinks, a compromised
+gateway, or semantic transformations missed by exact matching. The current
+matrix also declares \texttt{target} as high impact without instantiating it in
+a separate row; keeping this distinction explicit aligns the claim with the
+released evidence. The claim is therefore deterministic enforcement for
+recorded structured calls, not general noninterference or universal
+prompt-injection robustness.
+
 \subsection{Utility and failure analysis}
 
 The main cost is conservative blocking. Full completes 15/18 clean tasks in both
