@@ -604,6 +604,30 @@ and AgentDojo external baseline. Formal payloads and selected records are bound
 by SHA-256. Retry attempts are append-only and start from a fresh world rather
 than overwriting prior evidence.
 
+\subsection{Operational Implications and Future Work}
+
+The evidence suggests a deployable division of responsibility between the agent
+and the gateway. The agent may retrieve external data and propose a structured
+action, but the gateway should evaluate the capability manifest and the
+provenance of each argument before invoking a side effect. High-impact roles
+such as \texttt{recipient}, \texttt{target}, and \texttt{control} should fail
+closed when their source authority is insufficient, while externally supplied
+text may still enter a low-risk \texttt{content} field. Each decision should
+retain the role, source digest, registered transformation, policy result, and
+world-state outcome so that an operator can replay the decision rather than
+infer it from the final message.
+
+The prototype also makes its future-work boundary explicit. The current
+exact-match registry does not establish semantic equivalence for paraphrases,
+encoding, splitting, or cross-tool transformations; extending it requires
+typed transformation contracts and independent validation rather than fuzzy
+matching. Adaptive red agents, multiple models and seeds, and larger public
+benchmark transfer studies are needed to estimate robustness beyond the frozen
+six-task corpus. User confirmation, secret-broker mediation, and side-channel
+isolation should be evaluated as separate layers. These extensions should
+preserve the present metric separation: authority and permission violations in
+T1--T4 versus sensitive-value leakage in T5--T6.
+
 \subsection{AI-Use Disclosure}
 
 Generative AI systems were used as engineering and writing assistants: to help
