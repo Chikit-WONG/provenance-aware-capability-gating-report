@@ -10,8 +10,16 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{enumitem}
-\usepackage[hidelinks]{hyperref}
 \usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{CitationBlue}{RGB}{0,51,102}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=CitationBlue,
+  urlcolor=black
+}
 
 \newcommand{\system}{\textsc{ProvGate}}
 \newcommand{\attack}{\textsc{Attack}}
