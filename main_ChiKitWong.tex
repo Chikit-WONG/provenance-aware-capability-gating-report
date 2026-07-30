@@ -154,18 +154,36 @@ request, Reader summary, and evidence. It may propose
 a fresh in-memory world for each attempt; no real account, credential, external
 network, payment, deletion, or shell capability is available.
 
-The Reader/Action separation creates a realistic propagation path. An attacker
-controls content read by a low-privilege retrieval component, but the malicious
-instruction can influence a second component with access to state-changing
-tools. Exposure is not inferred from transcript keywords: a successful resource
-read event must be linked by identifier to the Action Agent context. The complete
-data and enforcement path is shown in Fig.~\ref{fig:architecture}.
+% Previous architecture description and figure retained for revision history.
+% The Reader/Action separation creates a realistic propagation path. An attacker
+% controls content read by a low-privilege retrieval component, but the malicious
+% instruction can influence a second component with access to state-changing
+% tools. Exposure is not inferred from transcript keywords: a successful resource
+% read event must be linked by identifier to the Action Agent context. The complete
+% data and enforcement path is shown in Fig.~\ref{fig:architecture}.
+%
+% \begin{figure*}[t]
+%     \centering
+%     \includegraphics[width=0.95\textwidth]{figures/f1.png}
+%     \caption{End-to-end \system{} data flow and enforcement path.
+% The deterministic gateway mediates tool execution after model-generated proposals.}
+%     \label{fig:architecture}
+% \end{figure*}
+
+The Reader/Action split exposes cross-step authority laundering: untrusted
+email may influence structured arguments while event-linked provenance flows to
+the Action Agent. Figure~\ref{fig:architecture} shows the gateway checking
+capabilities, argument roles, source authority, exact registered transformations,
+and sinks before \texttt{ToolExecutor}. \textsc{Allow} reaches MockWorld;
+\textsc{Deny} is logged without tool execution or side effects. Evaluation uses
+decision logs and world state, not transcript keywords.
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/f1.png}
-    \caption{End-to-end \system{} data flow and enforcement path.
-The deterministic gateway mediates tool execution after model-generated proposals.}
+    \includegraphics[width=0.95\textwidth]{figures/f1_pact_enforcement.png}
+    \caption{End-to-end \system{} enforcement path. PACT checks role-labelled
+arguments, provenance, registered transformations, and sinks before
+\texttt{ToolExecutor}; denied calls create no tool event or side effect.}
     \label{fig:architecture}
 \end{figure*}
 
